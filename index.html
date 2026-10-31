@@ -1,64 +1,178 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Till forever 吉他試唱</title>
+<!DOCTYPE html> <html lang="zh-Hant">
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Till forever 吉他試唱</title>
+<style> body { margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; background: #111827; font-family: Arial, "Microsoft JhengHei", sans-serif; color: white; }
+.player {
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  padding: 40px 25px;
+  box-sizing: border-box;
+}
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #111827;
-            font-family: Arial, "Microsoft JhengHei", sans-serif;
-            color: white;
-        }
+h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: normal;
+}
 
-        .player {
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-            padding: 40px 25px;
-            box-sizing: border-box;
-        }
+audio {
+  width: 100%;
+}
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 30px;
-            font-weight: normal;
-        }
+.artist {
+  margin-top: 20px;
+  font-size: 14px;
+  opacity: 0.6;
+}
 
-        audio {
-            width: 100%;
-        }
+.download-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
 
-        .artist {
-            margin-top: 20px;
-            font-size: 14px;
-            opacity: 0.6;
-        }
-    </style>
-</head>
+.download-btn:hover {
+  background: #1d4ed8;
+}
 
+/* 歌詞區塊 */
+.lyrics {
+  margin-top: 35px;
+  padding: 25px 20px;
+  background: #1f2937;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.lyrics-title {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: normal;
+  color: #93c5fd;
+}
+
+.lyrics-content {
+  font-size: 16px;
+  line-height: 2;
+  white-space: pre-wrap;
+  color: #e5e7eb;
+  overflow-wrap: break-word;
+}
+</style> </head>
 <body>
+<div class="player">
+<h1 id="songTitle"> Till forever</h1>
 
-    <div class="player">
+<audio controls id="musicPlayer">
+  您的瀏覽器不支援音樂播放。
+</audio>
 
-        <h1> Till forever </h1>
+<div class="artist" id="songSubtitle">
+ 吉他試唱
+</div>
 
-        <audio controls>
-            <source src=" Till forever 吉他試唱.MP3 " type="audio/mpeg">
-            您的瀏覽器不支援音樂播放。
-        </audio>
+<a
+  class="download-btn"
+  id="downloadButton"
+  href="#"
+  download
+>
+  🎵 下載音樂 MP3
+</a>
 
-        <div class="artist">
-            吉他試唱
-        </div>
+<!-- 歌詞區塊 -->
+<div class="lyrics">
 
-    </div>
+  <div class="lyrics-title">歌詞</div>
 
-</body>
-</html>
+  <div class="lyrics-content" id="songLyrics"></div>
+
+</div>
+</div>
+<script>
+// ==============================
+// 歌曲設定：更換歌曲時修改這裡即可
+// ==============================
+
+// GitHub 儲存庫中的 MP3 檔案名稱
+const musicFile = "Till forever 吉他試唱.MP3";
+
+// 網頁顯示的歌曲標題
+const songTitle = " Till forever";
+
+// 歌曲副標題
+const songSubtitle = "吉他試唱";
+
+// 使用者下載時看到的檔案名稱
+const downloadFileName = " Till forever 吉他試唱.mp3";
+
+// 歌詞：直接在這裡貼上完整歌詞
+const lyrics = `某一天 不經意擦肩
+我看見 的那個側臉
+那一夜 美得很直接
+
+這一天 將一眼瞬間
+就永遠 待在你身邊
+這誓言 讓心不遙遠
+我想對你說
+
+因為你我才更勇敢
+不再怕黑暗
+就算烏雲滿天也因你消散
+
+因為你我才更堅強
+去面對悲傷
+只要有你的地方就有力量
+Till forever. `;
+// ==============================
+// 音樂網址設定
+// ==============================
+
+const musicUrl = "./" + encodeURIComponent(musicFile);
+
+// ==============================
+// 顯示歌曲資訊
+// ==============================
+
+document.getElementById("songTitle").textContent = songTitle;
+
+document.getElementById("songSubtitle").textContent = songSubtitle;
+
+document.getElementById("songLyrics").textContent = lyrics;
+
+// ==============================
+// 設定音樂播放器
+// ==============================
+
+const musicPlayer = document.getElementById("musicPlayer");
+
+musicPlayer.src = musicUrl;
+
+musicPlayer.load();
+
+musicPlayer.addEventListener("loadedmetadata", function() {
+  console.log("音樂載入成功，長度：", musicPlayer.duration);
+});
+
+musicPlayer.addEventListener("error", function() {
+  console.log("音樂載入失敗：", musicPlayer.error);
+});
+
+// ==============================
+// 下載按鈕設定
+// ==============================
+
+const downloadButton = document.getElementById("downloadButton");
+
+downloadButton.href = musicUrl;
+
+downloadButton.download = downloadFileName;
+</script>
+</body> </html>
